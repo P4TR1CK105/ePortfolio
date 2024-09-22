@@ -1,0 +1,5 @@
+Information System Summary
+
+It is recognized that there were a total of 4 medium and 1 low vulnerabilities after the Nessus scan. The top two medium vulnerabilities, Echo Service Detection and Quote of the Day (QOTD) Service Detection, has the high Common 
+Vulnerability Scoring System (CVSS) score of 6.5, indicating that the two vulnerabilities are severely high regarding security risk. The other two medium vulnerabilities, SMB Signing not Required and Chargen UDP Service Remote DoS indicates the CVSS scores of 5.3 and 
+5.0, implicating that these scores are intermediately severe in comparison to the higher medium vulnerabilities. Lastly, the low vulnerability, ICMP Timestamp Request Remote Date Closure has the low CVSS score of 2.1, meaning it has minimal severity in security risk.
