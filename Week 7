@@ -1,0 +1,40 @@
+Threat Intelligence Report
+
+Name: CL0P Ransomware (https://www.techtarget.com/searchsecurity/news/366539278/Ransomware-actors-exploiting-MoveIt-Transfer-vulnerability)
+
+Associated Groups: TA505 (https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-158a)
+
+Description: The threat group CL0P Ransomware first appeared in February 2019. Derived on the CryptoMix ransomware strain, CL0P was utilised as a Ransomware as a Service (RaaS) in extensive spear-phishing campaigns that circumvented system defences by using a 
+validated and digitally signed binary. In the past, CL0P was well-known for adopting the "double extortion" strategy, which involved taking victim data, encrypting it, refusing to let victims access again, and posting exfiltrated information on Tor through the CL0P^_-LEAKS
+website. 2019 saw the usage of CL0P ransomware by TA505 actors as the last payload of a phishing campaign involving a document with macro functionality that downloaded SDBot and FlawedGrace using a Get2 malware dropper. (https://www.cisa.gov/news-events/cybersecurity-advisor
+ies/aa23-158a)
+
+Techniques: 
+Server Software Component: Web Shell (T1505.003): CL0P Ransomware deploys a web shell for data exfiltration purposes following the exploitation of the flaw. A Web shell is a Web script that is placed on an openly accessible Web server to allow an adversary to access the 
+Web server as a gateway into a network.(https://attack.mitre.org/techniques/T1505/003/) (https://www.techtarget.com/searchsecurity/news/366539278/Ransomware-actors-exploiting-MoveIt-Transfer-vulnerability)
+Masquerading: Match Legitimate Name or Location (T1036.005) CL0P Ransomware deploys web shells are disguised with file names for human.aspx, which is a legitimate component of the MFT software. Adversaries may match or approximate the name or location of legitimate files 
+or resources when naming/placing them. This is done for the sake of evading defenses and observation (https://attack.mitre.org/techniques/T1036/005/) (https://www.techtarget.com/searchsecurity/news/366539278/Ransomware-actors-exploiting-MoveIt-Transfer-vulnerability)
+
+Software Name: Lemurloot
+References: https://www.techtarget.com/searchsecurity/news/366539278/Ransomware-actors-exploiting-MoveIt-Transfer-vulnerability, https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-158a
+Group Association: Lemurloot has been deployed by CL0P Ransomware to web shell to facilitate data theft following the exploitation of a zero-day vulnerability in the MoveIt Transfer software. Lemurloot allowed CL0P actors to establish persistent access to compromised 
+systems and execute commands for data exfiltration. By deploying this web shell, CL0P could efficiently steal sensitive information from victims after gaining initial access through the SQL injection vulnerability. (https://www.cisa.gov/news-events/cybersecurity-advisories
+/aa23-158a)
+
+Platform: Windows 
+
+Techniques: 
+Exploit Public-Facing Application (T1190) : CL0P Ransomware uses stolen exploits a SQL injection zero-day vulnerability after the exploitation of CVE-2023-0669. The adversaries may attempt to exploit a weakness in an Internet-facing host or system to initially
+access a network. The weakness in the system can be a software bug, a temporary glitch, or a misconfiguration. (https://www.techtarget.com/searchsecurity/news/366539278/Ransomware-actors-exploiting-MoveIt-Transfer-vulnerability) (https://attack.mitre.org/techniques/T1190/)
+Data Encrypted for Impact (T1486): Clop ransomware actors exploited CVE-2023-0669, which lead to a series of data theft. Attackers encrypt critical data and demand a ransom for decryption, which is commonly used in extortion operations like ransomware attacks. 
+(https://attack.mitre.org/techniques/T1486/) (https://www.techtarget.com/searchsecurity/news/366539278/Ransomware-actors-exploiting-MoveIt-Transfer-vulnerability)
+
+
+Threat Actor/Attacker Rationale
+5 Techniques used by CL0P Ransomware – Limurloot:
+
+Server Software Component: Web Shell (T1505.003) – The actor used web shell for data exfiltration purposes following the exploitation of the flaw
+Masquerading: Match Legitimate Name or Location (T1036.005) – The actor deployed web shells which were disguised with file names for human.aspx.
+Exploit Public-Facing Application (T1190) – The threat actor exploited an SQL injection zero-day vulnerability
+Data Encrypted for Impact (T1486) – The threat actor implemented data theft attacks
+Application Layer Protocol (T1071) – The threat actor implemented extortion attacks
